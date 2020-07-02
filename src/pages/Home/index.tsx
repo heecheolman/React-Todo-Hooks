@@ -1,11 +1,24 @@
 import React from 'react'
+
+import TodoList from '../../models/TodoList'
+
 import TodoListComponent from '../../components/TodoList'
+import useTodo from '../../hooks/useTodo'
 
 const Home: React.FC = () => {
+  const { todoListCollection, addTodoList, addTodo } = useTodo()
+
   return (
     <div>
       <h1>Home</h1>
-      <TodoListComponent messageList={['1', '2', '3', '4', '5']} />
+      <button onClick={() => addTodoList()}>ADD TODOLIST</button>
+      {todoListCollection.map((todoList: TodoList, index: number) => (
+        <TodoListComponent
+          key={`todo-list-${index}`}
+          todoList={todoList}
+          addTodo={addTodo}
+        />
+      ))}
     </div>
   )
 }

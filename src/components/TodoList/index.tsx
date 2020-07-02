@@ -1,23 +1,36 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import Todo from '../../models/Todo'
+import TodoList from '../../models/TodoList'
 import TodoComponent from '../Todo'
 
 import styles from './style.module.scss'
 
 interface IProps {
-  messageList: string[]
+  todoList: TodoList
+  addTodo: (list: TodoList, message: string) => void
   className?: string
 }
 
-const TodoListComponent: React.FC<IProps> = ({ messageList, className }) => {
+const TodoListComponent: React.FC<IProps> = ({
+  todoList,
+  addTodo,
+  className,
+}) => {
   const classProps = classNames(styles.default, className)
-  const todos = messageList.map((message, index) => (
-    <li key={`message-${index}`}>
-      <TodoComponent message={message} />
+  const todos = todoList.getTodos().map((todo: Todo, index: number) => (
+    <li key={`todo-${index}`}>
+      <TodoComponent message={todo.getMessage()} />
     </li>
   ))
-  return <ul className={classProps}>{todos}</ul>
+
+  return (
+    <div>
+      <button onClick={() => addTodo(todoList, 'HELLO WORLD')}>Add Todo</button>
+      <ul className={classProps}>{todos}</ul>
+    </div>
+  )
 }
 
 export default TodoListComponent
