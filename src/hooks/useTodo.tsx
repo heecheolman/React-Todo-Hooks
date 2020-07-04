@@ -13,8 +13,13 @@ function useTodo() {
     reRender()
   }
 
+  const removeTodo = (list: TodoList, key: string) => {
+    list.removeTodo(key)
+    reRender()
+  }
+
   const addTodoList = () => {
-    const todoList = new TodoList(['1', '2', '3'])
+    const todoList = new TodoList(['HELLO WORLD'])
     setTodoListCollection([...todoListCollection, todoList])
     reRender([todoList])
   }
@@ -23,6 +28,7 @@ function useTodo() {
     todoListCollection,
     addTodoList,
     addTodo,
+    removeTodo,
   }
 }
 

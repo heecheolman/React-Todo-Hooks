@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import Todo from '../../models/Todo'
 import TodoList from '../../models/TodoList'
 import TodoComponent from '../Todo'
 
@@ -9,21 +8,29 @@ import styles from './style.module.scss'
 
 interface IProps {
   todoList: TodoList
-  addTodo: (list: TodoList, message: string) => void
   className?: string
+  addTodo: (list: TodoList, message: string) => void
+  removeTodo: (list: TodoList, key: string) => void
 }
 
 const TodoListComponent: React.FC<IProps> = ({
   todoList,
-  addTodo,
   className,
+  addTodo,
+  removeTodo,
 }) => {
   const classProps = classNames(styles.default, className)
-  const todos = todoList.getTodos().map((todo: Todo, index: number) => (
-    <li key={`todo-${index}`}>
-      <TodoComponent message={todo.getMessage()} />
-    </li>
-  ))
+
+  const todos = todoList.getTodos().map((todo) => {
+    return (
+      <li key={todo.getKey()}>
+        <TodoComponent
+          message={todo.getMessage()}
+          removeTodo={() => removeTodo(todoList, todo.getKey())}
+        />
+      </li>
+    )
+  })
 
   return (
     <div>
