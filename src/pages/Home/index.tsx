@@ -6,7 +6,13 @@ import TodoListComponent from '../../components/TodoList'
 import useTodo from '../../hooks/useTodo'
 
 const Home: React.FC = () => {
-  const { todoListCollection, addTodoList, addTodo, removeTodo } = useTodo()
+  const {
+    todoListCollection,
+    addTodoList,
+    addTodo,
+    removeTodo,
+    removeTodoList,
+  } = useTodo()
 
   return (
     <div>
@@ -18,6 +24,7 @@ const Home: React.FC = () => {
           todoList={todoList}
           addTodo={addTodo}
           removeTodo={removeTodo}
+          removeTodoList={removeTodoList}
         />
       ))}
     </div>

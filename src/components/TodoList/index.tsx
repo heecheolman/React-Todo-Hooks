@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import Todo from '../../models/Todo'
 import TodoList from '../../models/TodoList'
 import TodoComponent from '../Todo'
 
@@ -10,7 +11,8 @@ interface IProps {
   todoList: TodoList
   className?: string
   addTodo: (list: TodoList, message: string) => void
-  removeTodo: (list: TodoList, key: string) => void
+  removeTodo: (todo: Todo) => void
+  removeTodoList: (todoList: TodoList) => void
 }
 
 const TodoListComponent: React.FC<IProps> = ({
@@ -18,16 +20,14 @@ const TodoListComponent: React.FC<IProps> = ({
   className,
   addTodo,
   removeTodo,
+  removeTodoList,
 }) => {
   const classProps = classNames(styles.default, className)
 
   const todos = todoList.getTodos().map((todo) => {
     return (
       <li key={todo.getKey()}>
-        <TodoComponent
-          message={todo.getMessage()}
-          removeTodo={() => removeTodo(todoList, todo.getKey())}
-        />
+        <TodoComponent todo={todo} removeTodo={removeTodo} />
       </li>
     )
   })
@@ -36,6 +36,7 @@ const TodoListComponent: React.FC<IProps> = ({
     <div>
       <button onClick={() => addTodo(todoList, 'HELLO WORLD')}>Add Todo</button>
       <ul className={classProps}>{todos}</ul>
+      <button onClick={() => removeTodoList(todoList)}>TODOLIST 제거</button>
     </div>
   )
 }
