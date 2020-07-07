@@ -6,7 +6,13 @@ import TodoListComponent from '../../components/TodoList'
 import useTodo from '../../hooks/useTodo'
 
 const Home: React.FC = () => {
-  const { todoListCollection, addTodoList, addTodo } = useTodo()
+  const {
+    todoListCollection,
+    addTodoList,
+    addTodo,
+    removeTodo,
+    removeTodoList,
+  } = useTodo()
 
   return (
     <div>
@@ -17,6 +23,8 @@ const Home: React.FC = () => {
           key={`todo-list-${index}`}
           todoList={todoList}
           addTodo={addTodo}
+          removeTodo={removeTodo}
+          removeTodoList={removeTodoList}
         />
       ))}
     </div>

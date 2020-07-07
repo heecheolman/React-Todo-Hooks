@@ -9,26 +9,34 @@ import styles from './style.module.scss'
 
 interface IProps {
   todoList: TodoList
-  addTodo: (list: TodoList, message: string) => void
   className?: string
+  addTodo: (list: TodoList, message: string) => void
+  removeTodo: (todo: Todo) => void
+  removeTodoList: (todoList: TodoList) => void
 }
 
 const TodoListComponent: React.FC<IProps> = ({
   todoList,
-  addTodo,
   className,
+  addTodo,
+  removeTodo,
+  removeTodoList,
 }) => {
   const classProps = classNames(styles.default, className)
-  const todos = todoList.getTodos().map((todo: Todo, index: number) => (
-    <li key={`todo-${index}`}>
-      <TodoComponent message={todo.getMessage()} />
-    </li>
-  ))
+
+  const todos = todoList.getTodos().map((todo) => {
+    return (
+      <li key={todo.getKey()}>
+        <TodoComponent todo={todo} removeTodo={removeTodo} />
+      </li>
+    )
+  })
 
   return (
     <div>
       <button onClick={() => addTodo(todoList, 'HELLO WORLD')}>Add Todo</button>
       <ul className={classProps}>{todos}</ul>
+      <button onClick={() => removeTodoList(todoList)}>TODOLIST 제거</button>
     </div>
   )
 }

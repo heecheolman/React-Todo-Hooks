@@ -1,30 +1,31 @@
 import Todo from './Todo'
 
-interface ITodoAddable {
-  addTodo: (message: string) => void
-}
+import { IRemovable, RemoveState } from './Removable'
 
-interface ITodoRemovable {
-  removeTodo: (index: number) => void
-}
-
-class TodoList implements ITodoAddable, ITodoRemovable {
+class TodoList implements IRemovable {
   private todos: Todo[] = []
+  removeState: RemoveState = RemoveState.IDLE
 
   constructor(messageList: string[]) {
-    this.todos = messageList.map((message) => new Todo(message))
+    this.todos = messageList.map(
+      (message) => new Todo(`todo-${Math.random()}`, message)
+    )
+  }
+
+  remove(): void {
+    this.removeState = RemoveState.REMOVED
   }
 
   getTodos(): Todo[] {
-    return this.todos
+    return this.todos.filter((todo) => !todo.isRemoved())
   }
 
   addTodo(message: string): void {
-    this.todos.push(new Todo(message))
+    this.todos.push(new Todo(`todo-${Math.random()}`, message))
   }
 
-  removeTodo(index: number): void {
-    this.todos.splice(index, 1)
+  isRemoved() {
+    return this.removeState === RemoveState.REMOVED
   }
 }
 
